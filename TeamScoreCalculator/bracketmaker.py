@@ -41,12 +41,14 @@ w_names=[]
 l_names=[]
 finFour=[]
 
-full_df = pd.read_csv('/Users/etiennecossart/Desktop/CodingStuff/PythonProjects/MarchMadness/TeamScoreCalculator/Resources/2021_data.csv', header=0, dtype=schemaDict)
+full_df = pd.read_csv('/Users/etiennecossart/Desktop/CodingStuff/PythonProjects/MMBracketMaker/TeamScoreCalculator/Resources/2021_data.csv', header=0, dtype=schemaDict)
 print(full_df)
+
 
 # Inputs/Wates/etc.
 # TODO: update for full data set, proper vars, etc. DONT CALL TILL THEN
 def scalar_time():
+
     a_wate = ""
     b_wate = ""
     c_wate = ""
@@ -94,31 +96,33 @@ def scalar_time():
     
     full_df['NonConfSchAdjEM'] = i * full_df['NonConfSchAdjEM']
 
+    comp_score = full_df['AdjEM'] + full_df['AdjO'] + full_df['AdjD'] + full_df['AdjT'] + full_df['Luck'] + \
+    full_df['SchAdjEM'] + full_df['SchOppO'] + \
+    full_df['SchOppD'] + full_df['NonConfSchAdjEM']
+
+    full_df['COMPOSITE_SCORE'] = comp_score
+    sortded_composite_df = full_df.sort_values(by=['COMPOSITE_SCORE'])
+    print(sortded_composite_df)
+
 
 # TODO: once function is updated, uncomment
 # scalar_time()
 # TODO: fault tolerance for tight games, rand num for percent of UPSETS
 
 scalar_time()
-
-comp_score = full_df['AdjEM'] + full_df['AdjO'] + full_df['AdjD'] + full_df['AdjT'] + full_df['Luck'] + \
-    full_df['SchAdjEM'] + full_df['SchOppO'] + \
-    full_df['SchOppD'] + full_df['NonConfSchAdjEM']
-full_df['COMPOSITE_SCORE'] = comp_score
-sortded_composite_df = full_df.sort_values(by=['COMPOSITE_SCORE'])
 # print(sortded_composite_df)
-print("##############################################################")
-valid = False
-while valid == False:
-    confirm = input("Does it look good? ^^ (y/n)")
-    if confirm == "y":
-        print("CONFIRMED!")
-        print("Calculating......")
-        valid = True
-    elif confirm == "n":
-        scalar_time()
-    else:
-        print(" INVALID ENTRY: ", str(confirm), " Required: (y/n)")
+# print("##############################################################")
+# valid = False
+# while valid == False:
+#     confirm = input("Does it look good? ^^ (y/n)")
+#     if confirm == "y":
+#         print("CONFIRMED!")
+#         print("Calculating......")
+#         valid = True
+#     elif confirm == "n":
+#         scalar_time()
+#     else:
+#         print(" INVALID ENTRY: ", str(confirm), " Required: (y/n)")
 
 
 matchup = []
@@ -186,7 +190,7 @@ while(numTeamsRem % 2 == 0):
     matchup = winnersCircle.copy()
     numTeamsRem = len(matchup)
     print_string = "#"
-    print_string_len = print_string + " Round of " + str(numTeamsRem) + ": "+ str(w_names) + print_string
+    print_string_len = print_string + " Round of " + str(numTeamsRem) + ": "+ str(w_names) + " " + print_string
     string_len = len(print_string_len)
     print("")
     print(print_string*string_len)
